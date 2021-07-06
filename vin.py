@@ -60,14 +60,14 @@ def saveDatasetToFile(database_name, table_name, filename, dataframe):
     dataframe.to_sql(table_name, con=createEngine(database_name), if_exists='append', index=False)
     saveSQLtoFile(filename, database_name)
 
+def clearDatasetInFile(database_name, table_name, filename):
+    os.system('mysql -u root -pcodio -e "TRUNCATE TABLE ' + database_name + "." + table_name + ';"')
+    saveSQLtoFile(filename, database_name)
 
 def loadDataset(database_name, table_name, filename, update=False):
     loadSQLfromFile(filename, database_name)
     df = pd.read_sql_table(table_name, con=createEngine(database_name))
-    if update:
-        return createDataFrame(None, None)
-    else:
-        return df
+    return df
 
 
 def main():
@@ -76,12 +76,12 @@ def main():
         vin = input("Enter a Vehicle Identification Number: ")
         if(len(vin) != 17):
             print('Please enter a valid VIN')
-    
+
     headers = get_auth()
     DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
     r = requests.get(DECODE_URL + vin, headers=headers).json()
     valid = parse_data(r)
-    
+
     if(valid):
         database_name = 'vindecoder'
         filename = 'vin-queries.sql'
@@ -89,9 +89,9 @@ def main():
         dataframe = createDataFrame(r, vin)
 
         loadSQLfromFile(filename, database_name)
-        dataset = loadDataset(database_name, table_name, filename)
         saveDatasetToFile(database_name, table_name, filename, dataframe)
-
+        dataset = loadDataset(database_name, table_name, filename)
+        print(dataset)
 
 if __name__ == "__main__":
     main()
