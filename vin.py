@@ -32,7 +32,7 @@ def main():
     headers = get_auth()
     DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
     r = requests.get(DECODE_URL + vin, headers=headers).json()
-    print(r)
+    #print(r)
     parse_data(r)
    
 
