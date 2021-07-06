@@ -100,7 +100,7 @@ def main():
         print('VIN added to database')
         print(dataset)
     else:
-      print('No VIN')
+        print('VIN not found.')
 
 
 if __name__ == "__main__":
