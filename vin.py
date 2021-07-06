@@ -34,12 +34,12 @@ def loadSQLfromFile(filename, database_name):
     os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' +
               database_name + ';"')
     os.system("mysql -u root -pcodio " + database_name + " < " + filename)
-    
-    
+
+
 def saveSQLtoFile(filename, database_name):
     os.system("mysqldump -u root -pcodio " + database_name + " > " + filename)
-    
-    
+
+
 def createEngine(database_name):
     engine = create_engine("mysql://root:codio@localhost/" + database_name)
     return engine
@@ -53,18 +53,21 @@ def createDataFrame(r, vin):
         'make': [data['make']],
         'model': [data['model']]
     }
-    
+
     df = pd.DataFrame(data=d)
     return df
 
 
 def saveDatasetToFile(database_name, table_name, filename, dataframe):
-    dataframe.to_sql(table_name, con=createEngine(database_name), if_exists='append', index=False)
+    dataframe.to_sql(table_name, con=createEngine(database_name),
+                     if_exists='append', index=False)
     saveSQLtoFile(filename, database_name)
+
 
 def clearDatasetInFile(database_name, table_name, filename):
     os.system('mysql -u root -pcodio -e "TRUNCATE TABLE ' + database_name + "." + table_name + ';"')
     saveSQLtoFile(filename, database_name)
+
 
 def loadDataset(database_name, table_name, filename, update=False):
     loadSQLfromFile(filename, database_name)
