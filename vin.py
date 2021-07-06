@@ -65,7 +65,8 @@ def saveDatasetToFile(database_name, table_name, filename, dataframe):
 
 
 def clearDatasetInFile(database_name, table_name, filename):
-    os.system('mysql -u root -pcodio -e "TRUNCATE TABLE ' + database_name + "." + table_name + ';"')
+    os.system('mysql -u root -pcodio -e "TRUNCATE TABLE ' + database_name +
+              "." + table_name + ';"')
     saveSQLtoFile(filename, database_name)
 
 
