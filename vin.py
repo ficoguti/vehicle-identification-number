@@ -4,14 +4,15 @@ import os
 import sqlalchemy
 from sqlalchemy import create_engine
 
+
 def get_auth():
     AUTH_KEY = 'ODYwYmMxNjQtNjE3OS00OGM5LWEwZGYtN2FkZTQ4ZjY0NmE3'
     TOKEN = 'cddae0cb72134c408a0836016130be55'
 
     headers = {
-      "content-type":"application/json",
-      "authorization":'Basic {key}'.format(key=AUTH_KEY),
-      "partner-token":TOKEN
+      "content-type": "application/json",
+      "authorization": 'Basic {key}'.format(key=AUTH_KEY),
+      "partner-token": TOKEN
     }
 
     return headers
@@ -28,9 +29,10 @@ def parse_data(r):
         print('Invalid code')
         return False
 
-        
+
 def loadSQLfromFile(filename, database_name):
-    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' + database_name + ';"')
+    os.system('mysql -u root -pcodio -e "CREATE DATABASE IF NOT EXISTS ' +
+              database_name + ';"')
     os.system("mysql -u root -pcodio " + database_name + " < " + filename)
     
     
@@ -46,10 +48,10 @@ def createEngine(database_name):
 def createDataFrame(r, vin):
     data = r['data']
     d = {
-        'VIN' : [vin],
-        'year' : [data['year']],
-        'make' : [data['make']],
-        'model' : [data['model']]
+        'VIN': [vin],
+        'year': [data['year']],
+        'make': [data['make']],
+        'model': [data['model']]
     }
     
     df = pd.DataFrame(data=d)
@@ -92,6 +94,7 @@ def main():
         saveDatasetToFile(database_name, table_name, filename, dataframe)
         dataset = loadDataset(database_name, table_name, filename)
         print(dataset)
+
 
 if __name__ == "__main__":
     main()
