@@ -97,7 +97,10 @@ def main():
         loadSQLfromFile(filename, database_name)
         saveDatasetToFile(database_name, table_name, filename, dataframe)
         dataset = loadDataset(database_name, table_name, filename)
+        print('VIN added to database')
         print(dataset)
+    else:
+      print('No VIN')
 
 
 if __name__ == "__main__":
