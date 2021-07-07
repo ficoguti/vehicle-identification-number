@@ -4,7 +4,6 @@ import os
 import sqlalchemy
 from sqlalchemy import create_engine
 
-
 def get_auth():
     AUTH_KEY = 'ODYwYmMxNjQtNjE3OS00OGM5LWEwZGYtN2FkZTQ4ZjY0NmE3'
     TOKEN = 'cddae0cb72134c408a0836016130be55'
@@ -21,7 +20,7 @@ def get_auth():
 def parse_data(r):
     message = r['message']
     data = r['data']
-    if (message['code'] == 0):
+    if data != None and message['code'] == 0:
         print(data['year'], data['make'], data['model'], data['manufacturer'],
               data['engine'], data['trim'], data['transmission'])
         return True
@@ -86,20 +85,29 @@ def main():
     headers = get_auth()
     DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
     r = requests.get(DECODE_URL + vin, headers=headers).json()
+    
+    # print vehicle info to user
     valid = parse_data(r)
-
+    
+    database_name = 'vindecoder'
+    filename = 'vin-queries.sql'
+    table_name = 'queries'
+    
+    # Use this to clear the current database
+    # loadSQLfromFile(filename, database_name) 
+    # clearDatasetInFile(database_name, table_name, filename)
+    
     if(valid):
-        database_name = 'vindecoder'
-        filename = 'vin-queries.sql'
-        table_name = 'queries'
-        dataframe = createDataFrame(r, vin)
+        dataframe = createDataFrame(r, vin) # organize data
 
         loadSQLfromFile(filename, database_name)
-        saveDatasetToFile(database_name, table_name, filename, dataframe)
+        # save user query to database
+        saveDatasetToFile(database_name, table_name, filename, dataframe) 
         dataset = loadDataset(database_name, table_name, filename)
         print('VIN added to database')
         print(dataset)
     else:
+        # either not a valid VIN or no more query credits :(
         print('VIN not found.')
 
 
