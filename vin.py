@@ -3,6 +3,8 @@ import pandas as pd
 import os
 import sqlalchemy
 from sqlalchemy import create_engine
+import plotly.express as px
+
 
 def get_auth():
     AUTH_KEY = 'ODYwYmMxNjQtNjE3OS00OGM5LWEwZGYtN2FkZTQ4ZjY0NmE3'
@@ -20,7 +22,7 @@ def get_auth():
 def parse_data(r):
     message = r['message']
     data = r['data']
-    if data != None and message['code'] == 0:
+    if data is not None and message['code'] == 0:
         print(data['year'], data['make'], data['model'], data['manufacturer'],
               data['engine'], data['trim'], data['transmission'])
         return True
@@ -85,27 +87,46 @@ def main():
     headers = get_auth()
     DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
     r = requests.get(DECODE_URL + vin, headers=headers).json()
-    
+
     # print vehicle info to user
     valid = parse_data(r)
-    
     database_name = 'vindecoder'
     filename = 'vin-queries.sql'
     table_name = 'queries'
-    
+
     # Use this to clear the current database
-    # loadSQLfromFile(filename, database_name) 
+    # loadSQLfromFile(filename, database_name)
     # clearDatasetInFile(database_name, table_name, filename)
-    
+
     if(valid):
-        dataframe = createDataFrame(r, vin) # organize data
+        dataframe = createDataFrame(r, vin)  # organize data
 
         loadSQLfromFile(filename, database_name)
         # save user query to database
-        saveDatasetToFile(database_name, table_name, filename, dataframe) 
+        saveDatasetToFile(database_name, table_name, filename, dataframe)
         dataset = loadDataset(database_name, table_name, filename)
         print('VIN added to database')
         print(dataset)
+
+        # add dataset to interactive visual
+        cars_made_data = dataset['YEAR'].value_counts().rename_axis(
+            'year').reset_index(name='cars')
+        fig = px.scatter(cars_made_data, x='year', y='cars',
+                         labels={
+                             "year": "Year",
+                             "cars": "Cars Produced"
+                         },
+                         title="Number of Cars Produced Per Year")
+
+        fig.update_layout(
+            yaxis=dict(
+                tickmode='linear',
+                tick0=0,
+                dtick=1
+            )
+        )
+
+        fig.write_html('carsproducedyear.html')
     else:
         # either not a valid VIN or no more query credits :(
         print('VIN not found.')
