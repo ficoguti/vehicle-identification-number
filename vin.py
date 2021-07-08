@@ -60,9 +60,14 @@ def createDataFrame(r, vin):
 
 
 def saveDatasetToFile(database_name, table_name, filename, dataframe):
-    dataframe.to_sql(table_name, con=createEngine(database_name),
-                     if_exists='append', index=False)
-    saveSQLtoFile(filename, database_name)
+    currentData = loadDataset(database_name, table_name, filename)
+    if dataframe['VIN'].values not in currentData['VIN'].values:
+        dataframe.to_sql(table_name, con=createEngine(database_name),
+                         if_exists='append', index=False)
+        saveSQLtoFile(filename, database_name)
+        print('VIN added to database')
+    else:
+        print('VIN already in database')
 
 
 def clearDatasetInFile(database_name, table_name, filename):
@@ -126,7 +131,6 @@ def main():
         # save user query to database
         saveDatasetToFile(database_name, table_name, filename, dataframe)
         dataset = loadDataset(database_name, table_name, filename)
-        print('VIN added to database')
         print(dataset)
 
         # add dataset to interactive visual
