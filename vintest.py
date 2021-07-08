@@ -33,9 +33,9 @@ class TestFileName(unittest.TestCase):
 #     def test_createEngine(self):
 #         self.assertNotEqual(createEngine('test'), None)
 
-    def test_loadDataset(self):
-        df = loadDataset('vindecoder', 'queries', 'vin-queries.sql')
-        self.assertFalse(df.empty)
+#     def test_loadDataset(self):
+#         df = loadDataset('vindecoder', 'queries', 'vin-queries.sql')
+#         self.assertFalse(df.empty)
 
 
 if __name__ == '__main__':
