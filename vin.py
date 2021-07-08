@@ -23,8 +23,12 @@ def parse_data(r):
     message = r['message']
     data = r['data']
     if data is not None and message['code'] == 0:
-        print(data['year'], data['make'], data['model'], data['manufacturer'],
-              data['engine'], data['trim'], data['transmission'])
+        print('Year/Make/Model:', data['year'], data['make'], data['model'])
+        print('Manufacturer:', data['manufacturer'])
+        print('Engine:', data['engine'])
+        if data['trim']:
+            print('Trim:', data['trim']) 
+        print('Transmission:', data['transmission'])
         return True
     else:
         print('Invalid code')

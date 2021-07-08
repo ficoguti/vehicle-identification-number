@@ -22,8 +22,12 @@ Using [CarMD's VIN API](https://www.carmd.com/api/), this program is able to dec
 
 ```
 $ python3 vin.py
-Enter a Vehicle Identification Number: JH4DC4451YS004711
-2000 ACURA INTEGRA HONDA L4, 1.8L; DOHC; 16V LS AUTOMATIC
+Enter a Vehicle Identification Number: 5N3AA08D68N901917
+Year/Make/Model: 2008 INFINITI QX56
+Manufacturer: NISSAN
+Engine: V8, 5.6L; DOHC; 32V; SEFI
+Trim: 2WD
+Transmission: AUTOMATIC
 VIN added to database
     ID                VIN  YEAR         MAKE             MODEL
 0    1  5YJYGAEE8MF136571  2021        TESLA           MODEL Y
@@ -47,6 +51,7 @@ VIN added to database
 18  19  1N6AD09U19C400608  2009       NISSAN          FRONTIER
 19  20  WMEEJ9AA9DK715496  2013        SMART            FORTWO
 20  21  JH4DC4451YS004711  2000        ACURA           INTEGRA
+21  22  5N3AA08D68N901917  2008     INFINITI              QX56
 ```
 ---
 
