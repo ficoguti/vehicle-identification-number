@@ -31,5 +31,5 @@ To learn more about Vehicle Identification Numbers visit [AutoCheck](https://www
 
 Name | Email
 ---- | -----
-Federico Gutierrez | fedeguti2001@gmail.com
+Federico Gutierrez | fg42768n@pace.edu
 Nerissa Griffiths | ngriffit@villanova.edu
