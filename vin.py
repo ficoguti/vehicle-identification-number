@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import cv2
 import os
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -19,9 +20,14 @@ def get_auth():
     return headers
 
 
-def parse_data(r):
-    message = r['message']
-    data = r['data']
+def parse_data(vin):
+    headers = get_auth()
+    DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
+    IMAGE_URL = 'http://api.carmd.com/v3.0/image?vin='
+    decoder = requests.get(DECODE_URL + vin, headers=headers).json()
+    
+    message = decoder['message']
+    data = decoder['data']
     if data is not None and message['code'] == 0:
         print('Year/Make/Model:', data['year'], data['make'], data['model'])
         print('Manufacturer:', data['manufacturer'])
@@ -29,10 +35,16 @@ def parse_data(r):
         if data['trim']:
             print('Trim:', data['trim'])
         print('Transmission:', data['transmission'])
-        return True
+        
+        img = requests.get(IMAGE_URL + vin, headers=headers).json() # looks for image
+        img = img['data']
+        if img['image']:
+            print('Image:',img['image'])
+            
+        return decoder
     else:
         print('Invalid code')
-        return False
+        return None
 
 
 def loadSQLfromFile(filename, database_name):
@@ -114,12 +126,8 @@ def main():
         if(len(vin) != 17):
             print('Please enter a valid VIN')
 
-    headers = get_auth()
-    DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
-    r = requests.get(DECODE_URL + vin, headers=headers).json()
-
     # print vehicle info to user
-    valid = parse_data(r)
+    decoder = parse_data(vin)
     database_name = 'vindecoder'
     filename = 'vin-queries.sql'
     table_name = 'queries'
@@ -128,8 +136,8 @@ def main():
     # loadSQLfromFile(filename, database_name)
     # clearDatasetInFile(database_name, table_name, filename)
 
-    if(valid):
-        dataframe = createDataFrame(r, vin)  # organize data
+    if(decoder is not None):
+        dataframe = createDataFrame(decoder, vin)  # organize data
 
         loadSQLfromFile(filename, database_name)
         # save user query to database
