@@ -25,7 +25,7 @@ def parse_data(vin):
     DECODE_URL = 'http://api.carmd.com/v3.0/decode?vin='
     IMAGE_URL = 'http://api.carmd.com/v3.0/image?vin='
     decoder = requests.get(DECODE_URL + vin, headers=headers).json()
-    
+
     message = decoder['message']
     data = decoder['data']
     if data is not None and message['code'] == 0:
@@ -36,10 +36,11 @@ def parse_data(vin):
             print('Trim:', data['trim'])
         print('Transmission:', data['transmission'])
         
-        img = requests.get(IMAGE_URL + vin, headers=headers).json() # looks for image
+        # looks for image of vehicle
+        img = requests.get(IMAGE_URL + vin, headers=headers).json()
         img = img['data']
         if img['image']:
-            print('Image:',img['image'])
+            print('Image:', img['image'])
             
         return decoder
     else:
