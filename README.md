@@ -53,7 +53,9 @@ VIN added to database
 ## Guide:
 
 When prompted, enter your 17 character Vehicle Identification Number (VIN) into the command line.
+
 If you wish to clear the current dataset, use **loadSQLfromFile** followed by **clearDatasetInFile** within the main function.
+
 ---
 
 ### External Information:
