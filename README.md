@@ -13,7 +13,7 @@ Using [CarMD's VIN API](https://www.carmd.com/api/), this program is able to dec
 
 ### This algorithm does many things.
 - It prints the year, make, and model associated with the given Vehicle Identification Number (VIN).
-- It plots the the number of cars per year in a scatter plot format. This is located in the carsproducedyear.html file.
+- It plots the the number of cars per year in a scatter plot format. This is located in the [carsproducedyear.html](https://nerissagrif.github.io/vehicle-identification-number/carsproducedyear.html) file.
 - It uploads the Vehicle Identification Number data into a SQL database, but not before converting it into a pandas dataframe!
 ---
 
