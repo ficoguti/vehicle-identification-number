@@ -21,7 +21,7 @@ Using [CarMD's VIN API](https://www.carmd.com/api/), this program is able to dec
 ## Demo
 
 ```
-~/workspace/vehicle-identification-number$ python3 vin.py
+$ python3 vin.py
 Enter a Vehicle Identification Number: JH4DC4451YS004711
 2000 ACURA INTEGRA HONDA L4, 1.8L; DOHC; 16V LS AUTOMATIC
 VIN added to database
