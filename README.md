@@ -29,7 +29,7 @@ Engine: U; Electric
 Trim: Convertible
 Transmission: AUTOMATIC
 Image: http://downloads.innova.com/polk-vehicle-images/TESROAD1.jpg
-VIN already in database
+VIN added to database
     ID                VIN  YEAR         MAKE             MODEL
 0    1  5YJYGAEE8MF136571  2021        TESLA           MODEL Y
 1    2  WBA3A5C57CF256651  2012          BMW               328
