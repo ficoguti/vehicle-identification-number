@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-import cv2
 import os
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -41,7 +40,7 @@ def parse_data(vin):
         img = img['data']
         if img['image']:
             print('Image:', img['image'])
-            
+
         return decoder
     else:
         print('Invalid code')
