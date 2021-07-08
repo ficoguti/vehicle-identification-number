@@ -30,12 +30,13 @@ class TestFileName(unittest.TestCase):
         df = createDataFrame(r, '12345678912345678')
         self.assertFalse(df.empty)
 
-    def test_createEngine(self):
-        self.assertNotEqual(createEngine('test'), None)
+#     def test_createEngine(self):
+#         self.assertNotEqual(createEngine('test'), None)
 
     def test_loadDataset(self):
         df = loadDataset('vindecoder', 'queries', 'vin-queries.sql')
         self.assertFalse(df.empty)
+
 
 if __name__ == '__main__':
     unittest.main()
