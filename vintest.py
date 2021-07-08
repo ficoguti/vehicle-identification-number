@@ -13,17 +13,17 @@ class TestFileName(unittest.TestCase):
         self.assertFalse(parse_data(requests.get(
             DECODE_URL + '12345678912345678', headers=headers).json()))
 
-
     def test_get_auth(self):
         headers = {
             "content-type": "application/json",
-            "authorization": 'Basic ODYwYmMxNjQtNjE3OS00OGM5LWEwZGYtN2FkZTQ4ZjY0NmE3',
+            "authorization": 'Basic ' +
+            'ODYwYmMxNjQtNjE3OS00OGM5LWEwZGYtN2FkZTQ4ZjY0NmE3',
             "partner-token": 'cddae0cb72134c408a0836016130be55'
         }
 
         self.assertEqual(get_auth(), headers)
 
-        
+
     def test_createDataFrame(self):
         r = {'data': {'year': 1999, 'make': 'FORD', 'model': 'TAURUS',
              'manufacturer': 'FORD', 'engine': 'V6, 3.0L', 'trim': 'LX', 'transmission': 'AUTOMATIC'}}

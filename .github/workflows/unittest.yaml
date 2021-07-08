@@ -18,6 +18,7 @@ jobs:
           pip install coverage 
           pip install requests
           pip install pandas
+          pip install sqlalchemy
 
       - name: Test with unittest
         run: |
