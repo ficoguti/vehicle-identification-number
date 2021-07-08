@@ -27,7 +27,7 @@ def parse_data(r):
         print('Manufacturer:', data['manufacturer'])
         print('Engine:', data['engine'])
         if data['trim']:
-            print('Trim:', data['trim']) 
+            print('Trim:', data['trim'])
         print('Transmission:', data['transmission'])
         return True
     else:
