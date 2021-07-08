@@ -71,10 +71,31 @@ def clearDatasetInFile(database_name, table_name, filename):
     saveSQLtoFile(filename, database_name)
 
 
-def loadDataset(database_name, table_name, filename, update=False):
+def loadDataset(database_name, table_name, filename):
     loadSQLfromFile(filename, database_name)
     df = pd.read_sql_table(table_name, con=createEngine(database_name))
     return df
+
+
+def plotCarsByYear(dataset):
+    cars_made_data = dataset['YEAR'].value_counts().rename_axis(
+            'year').reset_index(name='cars')
+    fig = px.scatter(cars_made_data, x='year', y='cars',
+                     labels={
+                         "year": "Year",
+                         "cars": "Cars Produced"
+                     },
+                     title="Number of Cars Produced Per Year")
+
+    fig.update_layout(
+        yaxis=dict(
+            tickmode='linear',
+            tick0=0,
+            dtick=1
+        )
+    )
+
+    fig.write_html('carsproducedyear.html')
 
 
 def main():
@@ -109,24 +130,7 @@ def main():
         print(dataset)
 
         # add dataset to interactive visual
-        cars_made_data = dataset['YEAR'].value_counts().rename_axis(
-            'year').reset_index(name='cars')
-        fig = px.scatter(cars_made_data, x='year', y='cars',
-                         labels={
-                             "year": "Year",
-                             "cars": "Cars Produced"
-                         },
-                         title="Number of Cars Produced Per Year")
-
-        fig.update_layout(
-            yaxis=dict(
-                tickmode='linear',
-                tick0=0,
-                dtick=1
-            )
-        )
-
-        fig.write_html('carsproducedyear.html')
+        plotCarsByYear(dataset)
     else:
         # either not a valid VIN or no more query credits :(
         print('VIN not found.')
