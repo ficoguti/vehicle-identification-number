@@ -35,7 +35,7 @@ def parse_data(vin):
         if data['trim']:
             print('Trim:', data['trim'])
         print('Transmission:', data['transmission'])
-        
+
         # looks for image of vehicle
         img = requests.get(IMAGE_URL + vin, headers=headers).json()
         img = img['data']
